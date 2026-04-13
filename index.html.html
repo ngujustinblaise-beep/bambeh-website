@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bambeh — We Carry All Loads</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI',sans-serif;color:#1a1a2e;background:#fff;overflow-x:hidden}
+
+  /* NAV */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 2rem;background:#fff;border-bottom:1px solid #f0f0f0;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+  .nav-logo{display:flex;align-items:center;gap:10px}
+  .nav-logo img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+  .nav-logo span{font-size:1.3rem;font-weight:800;color:#1AADA3;letter-spacing:-0.5px}
+  .nav-right{display:flex;gap:0.75rem;align-items:center}
+  .lang-btns{display:flex;gap:4px}
+  .lang-btn{background:none;border:1.5px solid #1AADA3;color:#1AADA3;padding:5px 12px;border-radius:16px;cursor:pointer;font-size:0.78rem;font-weight:600;transition:all 0.2s}
+  .lang-btn:hover,.lang-btn.active{background:#1AADA3;color:#fff}
+  .nav-cta{background:linear-gradient(135deg,#1AADA3,#E14B8A);color:#fff;border:none;padding:8px 20px;border-radius:20px;cursor:pointer;font-size:0.85rem;font-weight:700;transition:all 0.2s}
+  .nav-cta:hover{opacity:0.9;transform:translateY(-1px)}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#1AADA3 0%,#E14B8A 55%,#F5A623 100%);min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;position:relative;overflow:hidden}
+  .hero-logo{width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:1.5rem;border:4px solid rgba(255,255,255,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.2)}
+  .hero-badge{background:rgba(255,255,255,0.2);color:#fff;padding:6px 18px;border-radius:20px;font-size:0.78rem;font-weight:700;margin-bottom:1.5rem;display:inline-block;letter-spacing:1.5px;text-transform:uppercase;backdrop-filter:blur(8px)}
+  .hero h1{font-size:clamp(2rem,6vw,3.8rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:0.5rem}
+  .hero h1 span{color:#FFE066}
+  .hero-sub{font-size:clamp(0.95rem,2vw,1.15rem);color:rgba(255,255,255,0.9);margin:1rem 0 2rem;max-width:580px;line-height:1.7}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
+  .btn-primary{background:#fff;color:#1AADA3;border:none;padding:14px 32px;border-radius:30px;font-size:1rem;font-weight:800;cursor:pointer;transition:all 0.2s}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+  .btn-secondary{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.7);padding:14px 32px;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+  .btn-secondary:hover{background:rgba(255,255,255,0.15)}
+  .store-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .store-btn{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.25);color:#fff;padding:10px 20px;border-radius:12px;font-size:0.85rem;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.2);transition:all 0.2s;text-decoration:none}
+  .store-btn:hover{background:rgba(0,0,0,0.4)}
+  .store-icon{font-size:1.2rem}
+
+  /* STATS */
+  .stats{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;padding:2.5rem 2rem;background:#f0fffe;border-bottom:1px solid #c8f0ee}
+  .stat{text-align:center}
+  .stat-num{font-size:2rem;font-weight:900;color:#1AADA3}
+  .stat-label{font-size:0.82rem;color:#666;margin-top:2px}
+
+  /* TESTIMONIALS */
+  .testimonials{padding:4rem 2rem;background:#1a1a2e;overflow:hidden;position:relative}
+  .testimonials-title{text-align:center;color:#FFE066;font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem}
+  .testimonials h2{text-align:center;color:#fff;font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:2.5rem}
+  .testimonials-track{display:flex;gap:1.5rem;animation:scroll 40s linear infinite;width:max-content}
+  .testimonials-track:hover{animation-play-state:paused}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .testimonial-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:1.5rem;width:320px;flex-shrink:0}
+  .t-region{font-size:0.72rem;font-weight:700;color:#F5A623;letter-spacing:1px;text-transform:uppercase;margin-bottom:0.5rem}
+  .t-quote{font-size:0.95rem;color:rgba(255,255,255,0.88);line-height:1.6;margin-bottom:1rem;font-style:italic}
+  .t-user{font-size:0.85rem;color:#1AADA3;font-weight:700}
+  .t-stars{color:#FFE066;font-size:0.9rem;margin-bottom:0.4rem}
+
+  /* CTA STRIP */
+  .cta-strip{background:linear-gradient(135deg,#FFE066,#F5A623);padding:2rem;text-align:center}
+  .cta-strip p{font-size:clamp(1rem,2.5vw,1.4rem);font-weight:900;color:#1a1a2e;margin-bottom:0.5rem}
+  .cta-strip .tagline{font-size:clamp(0.8rem,1.5vw,1rem);color:#3a2a00;font-weight:600;margin-bottom:1.5rem}
+  .cta-strip button{background:#1a1a2e;color:#FFE066;border:none;padding:14px 36px;border-radius:30px;font-size:1rem;font-weight:800;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px}
+  .cta-strip button:hover{background:#2a2a4e;transform:translateY(-2px)}
+
+  /* FEATURES */
+  .features{padding:5rem 2rem;max-width:1100px;margin:0 auto}
+  .section-label{text-align:center;color:#1AADA3;font-size:0.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem}
+  .section-title{text-align:center;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:#1a1a2e;margin-bottom:0.5rem}
+  .section-title span{color:#E14B8A}
+  .section-sub{text-align:center;color:#666;font-size:1rem;margin-bottom:3rem;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+  .feature-card{border-radius:20px;padding:2rem;transition:transform 0.2s}
+  .feature-card:hover{transform:translateY(-4px)}
+  .feature-card.teal{background:linear-gradient(135deg,#e0f9f7,#b2f0ee)}
+  .feature-card.pink{background:linear-gradient(135deg,#fff0f6,#ffd6e8)}
+  .feature-card.orange{background:linear-gradient(135deg,#fff5e6,#ffe0b2)}
+  .feature-card.purple{background:linear-gradient(135deg,#f0ebff,#e0d5fc)}
+  .feature-card.blue{background:linear-gradient(135deg,#e6f4ff,#c2e0ff)}
+  .feature-card.green{background:linear-gradient(135deg,#e8fff0,#b2f0cc)}
+  .feature-icon{font-size:2.2rem;margin-bottom:1rem}
+  .feature-card h3{font-size:1.05rem;font-weight:800;color:#1a1a2e;margin-bottom:0.5rem}
+  .feature-card p{font-size:0.88rem;color:#555;line-height:1.6}
+
+  /* HOW */
+  .how{background:#1a1a2e;padding:5rem 2rem}
+  .how-inner{max-width:900px;margin:0 auto}
+  .how .section-label{color:#F5A623}
+  .how .section-title{color:#fff}
+  .how .section-sub{color:rgba(255,255,255,0.65)}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:3rem}
+  .step{text-align:center}
+  .step-num{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:900;margin:0 auto 1rem}
+  .step-num.s1{background:linear-gradient(135deg,#1AADA3,#E14B8A);color:#fff}
+  .step-num.s2{background:linear-gradient(135deg,#E14B8A,#F5A623);color:#fff}
+  .step-num.s3{background:linear-gradient(135deg,#F5A623,#1AADA3);color:#fff}
+  .step h3{color:#fff;font-size:1rem;font-weight:700;margin-bottom:0.5rem}
+  .step p{color:rgba(255,255,255,0.6);font-size:0.88rem;line-height:1.6}
+
+  /* PRICING */
+  .pricing{padding:5rem 2rem;background:#f9f9f9}
+  .pricing-inner{max-width:900px;margin:0 auto}
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:2.5rem}
+  .pricing-card{background:#fff;border-radius:20px;padding:2rem;text-align:center;border:2px solid #f0f0f0;transition:all 0.2s;position:relative}
+  .pricing-card:hover{border-color:#1AADA3;transform:translateY(-4px)}
+  .pricing-card.featured{border-color:#E14B8A;background:linear-gradient(135deg,#fff,#fff5f9)}
+  .price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#E14B8A;color:#fff;padding:4px 16px;border-radius:12px;font-size:0.72rem;font-weight:700;white-space:nowrap}
+  .plan-name{font-size:1rem;font-weight:700;color:#1a1a2e;margin-bottom:0.5rem}
+  .plan-price{font-size:2.2rem;font-weight:900;color:#1AADA3;margin-bottom:0.25rem}
+  .plan-period{font-size:0.78rem;color:#888;margin-bottom:1rem}
+  .plan-desc{font-size:0.85rem;color:#666;line-height:1.5}
+
+  /* WAITLIST */
+  .waitlist{padding:5rem 2rem;background:linear-gradient(135deg,#1AADA3,#E14B8A);text-align:center}
+  .waitlist h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:#fff;margin-bottom:0.75rem}
+  .waitlist p{color:rgba(255,255,255,0.85);margin-bottom:2rem;font-size:1rem}
+  .waitlist-form{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;max-width:480px;margin:0 auto}
+  .waitlist-form input{flex:1;min-width:220px;padding:14px 20px;border-radius:30px;border:none;font-size:0.95rem;outline:none}
+  .waitlist-form button{background:#FFE066;color:#1a1a2e;border:none;padding:14px 28px;border-radius:30px;font-size:0.95rem;font-weight:800;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+  .waitlist-form button:hover{background:#ffd700;transform:translateY(-1px)}
+  .success-msg{display:none;color:#fff;font-size:1rem;font-weight:700;margin-top:1rem;background:rgba(255,255,255,0.15);padding:12px 24px;border-radius:20px}
+
+  /* CONTACT */
+  .contact{padding:5rem 2rem;max-width:700px;margin:0 auto;text-align:center}
+  .contact-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:2.5rem}
+  .contact-card{border:1.5px solid #c8f0ee;border-radius:16px;padding:1.5rem;transition:all 0.2s}
+  .contact-card:hover{border-color:#1AADA3;transform:translateY(-2px)}
+  .contact-card-icon{font-size:1.6rem;margin-bottom:0.75rem}
+  .contact-card h4{font-size:0.95rem;font-weight:700;color:#1a1a2e;margin-bottom:0.25rem}
+  .contact-card p{font-size:0.82rem;color:#888}
+
+  /* TERMS */
+  .terms-bar{background:#f9f9f9;border-top:1px solid #eee;padding:1.5rem 2rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
+  .terms-bar a{color:#1AADA3;text-decoration:none;font-size:0.85rem;font-weight:600;transition:color 0.2s}
+  .terms-bar a:hover{color:#E14B8A}
+
+  /* FOOTER */
+  footer{background:#1a1a2e;color:rgba(255,255,255,0.6);text-align:center;padding:2rem;font-size:0.85rem}
+  footer span{color:#1AADA3;font-weight:700}
+  .footer-logo{width:50px;height:50px;border-radius:50%;margin:0 auto 0.75rem;display:block}
+
+  /* LANG */
+  .en{display:block}.fr{display:none}.ha{display:none}.ar{display:none}
+  span.en,.en-inline{display:inline}.fr-inline,.ha-inline,.ar-inline{display:none}
+  body.french .en{display:none!important}.body.french .fr{display:block!important}
+  body.hausa .en{display:none!important}.body.hausa .ha{display:block!important}
+  body.arabic .en{display:none!important}.body.arabic .ar{display:block!important}
+
+  /* RTL for Arabic */
+  body.arabic{direction:rtl;text-align:right}
+  body.arabic .nav-logo{flex-direction:row-reverse}
+
+  @media(max-width:600px){
+    nav{padding:0.75rem 1rem}
+    .hero{padding:3rem 1rem}
+    .hero-logo{width:90px;height:90px}
+    .stats{gap:1.5rem}
+    .features,.how-inner,.waitlist,.contact{padding:3rem 1rem}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtcAAALUCAYAAADAGh7zAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAALiMAAC4jAXilP3YAAP+lSURBVHhe7L13kGX3decJ..." alt="Bambeh Logo">
+    <span>Bambeh</span>
+  </div>
+  <div class="nav-right">
+    <div class="lang-btns">
+      <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+      <button class="lang-btn" onclick="setLang('fr',this)">FR</button>
+      <button class="lang-btn" onclick="setLang('ha',this)">HA</button>
+      <button class="lang-btn" onclick="setLang('ar',this)">عر</button>
+    </div>
+    <button class="nav-cta" onclick="document.querySelector('.waitlist').scrollIntoView({behavior:'smooth'})">
+      <span class="en-inline">Join Free</span><span class="fr-inline">Rejoindre</span><span class="ha-inline">Shiga</span><span class="ar-inline">انضم</span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <img class="hero-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtcAAALUCAYAAADAGh7z..." alt="Bambeh Logo">
+  <div class="hero-badge">
+    <span class="en-inline">🇨🇲 Coming Soon — Cameroon & Beyond</span>
+    <span class="fr-inline">🇨🇲 Bientôt — Cameroun & Au-delà</span>
+    <span class="ha-inline">🇨🇲 Nan Gaba — Kamaru & Fiye</span>
+    <span class="ar-inline">🇨🇲 قريباً — الكاميرون وما وراءها</span>
+  </div>
+  <h1>
+    <span class="en">Your Life,<br><span>Carried & Connected</span></span>
+    <span class="fr" style="display:none">Votre Vie,<br><span>Portée & Connectée</span></span>
+    <span class="ha" style="display:none">Rayuwarka,<br><span>Ana Dauko & Haɗawa</span></span>
+    <span class="ar" style="display:none">حياتك،<br><span>محمولة ومتصلة</span></span>
+  </h1>
+  <p class="hero-sub en">Bambeh is your all-in-one marketplace, delivery & payments app. Buy, sell, deliver and pay — all from one place. Jobs, housing, farm produce, livestock, community group buying… we carry ALL loads!</p>
+  <p class="hero-sub fr" style="display:none">Bambeh est votre application tout-en-un — marché, livraison et paiements. Achetez, vendez, livrez et payez depuis un seul endroit. Emplois, logement, produits agricoles… nous portons TOUTES les charges!</p>
+  <p class="hero-sub ha" style="display:none">Bambeh shine app ɗaya tare — kasuwanci, isar da kaya da biya. Saya, sayarwa, isar da kaya da biya — daga wuri ɗaya. Ayyuka, gidaje, kayan noma, dabbobi… muna ɗaukar DUKAN nauyi!</p>
+  <p class="hero-sub ar" style="display:none">بامبيه هو تطبيقك الشامل للسوق والتوصيل والمدفوعات. اشترِ وبِع ووصِّل وادفع — كل ذلك من مكان واحد. وظائف، مساكن، منتجات زراعية… نحن نحمل كل الأحمال!</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.querySelector('.waitlist').scrollIntoView({behavior:'smooth'})">
+      <span class="en-inline">🎉 Sign Up Free</span>
+      <span class="fr-inline">🎉 S'inscrire Gratuitement</span>
+      <span class="ha-inline">🎉 Yi Rajista Kyauta</span>
+      <span class="ar-inline">🎉 سجل مجاناً</span>
+    </button>
+    <button class="btn-secondary" onclick="document.querySelector('#features-section').scrollIntoView({behavior:'smooth'})">
+      <span class="en-inline">Learn More ↓</span>
+      <span class="fr-inline">En savoir plus ↓</span>
+      <span class="ha-inline">Kara Sani ↓</span>
+      <span class="ar-inline">اعرف أكثر ↓</span>
+    </button>
+  </div>
+  <div class="store-btns">
+    <a href="#" class="store-btn"><span class="store-icon">📱</span> App Store</a>
+    <a href="#" class="store-btn"><span class="store-icon">▶</span> Google Play</a>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">10K+</div><div class="stat-label"><span class="en-inline">On Waitlist</span><span class="fr-inline">En attente</span><span class="ha-inline">Suna jira</span><span class="ar-inline">في القائمة</span></div></div>
+  <div class="stat"><div class="stat-num">6-in-1</div><div class="stat-label"><span class="en-inline">All-in-One App</span><span class="fr-inline">App tout-en-un</span><span class="ha-inline">App ɗaya tare</span><span class="ar-inline">تطبيق شامل</span></div></div>
+  <div class="stat"><div class="stat-num">2025</div><div class="stat-label"><span class="en-inline">Launch Year</span><span class="fr-inline">Lancement</span><span class="ha-inline">Shekarar Fara</span><span class="ar-inline">سنة الإطلاق</span></div></div>
+  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label"><span class="en-inline">Support</span><span class="fr-inline">Assistance</span><span class="ha-inline">Taimako</span><span class="ar-inline">دعم</span></div></div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <p class="testimonials-title">
+    <span class="en-inline">Real Stories from Cameroonians</span>
+    <span class="fr-inline">Vraies histoires des Camerounais</span>
+    <span class="ha-inline">Labarun Gaskiya daga Mutanen Kamaru</span>
+    <span class="ar-inline">قصص حقيقية من الكاميرونيين</span>
+  </p>
+  <h2>
+    <span class="en-inline">What Are You Waiting For?</span>
+    <span class="fr-inline">Qu'est-ce que vous attendez?</span>
+    <span class="ha-inline">Mene ne kake jira?</span>
+    <span class="ar-inline">ماذا تنتظر؟</span>
+  </h2>
+  <div style="overflow:hidden;width:100%">
+    <div class="testimonials-track" id="track">
+
+      <div class="testimonial-card">
+        <div class="t-region">🏔️ North Region</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I was struggling to find a place to stay in Douala. Within 2 days on Bambeh, I found a beautiful apartment near Akwa — at a price I could afford. This app changed my life!"</div>
+        <div class="t-user">— Mamadou A., relocated to Douala</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">🌿 East Region</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I had an old motorbike sitting in my compound for 2 years. I posted it on Bambeh and sold it in 3 hours! Got paid directly to my Mobile Money. Simple!"</div>
+        <div class="t-user">— Jean-Paul N., Bertoua</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">🍃 Northwest Region</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I sold my atogoh (traditional smoked bush meat) to buyers all the way in Douala through Bambeh. They arranged delivery. I never left my village. My income tripled!"</div>
+        <div class="t-user">— Fuh Emmanuel, Bamenda</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">🌊 South Region</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"My landlord needed to find a tenant for his garage to park a car. Within a week on Bambeh, he found the perfect person. The app handles everything!"</div>
+        <div class="t-user">— Marie-Claire O., Ebolowa</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">🏙️ Yaoundé</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"Through Bambeh's Community section, I found a reliable house helper for my family. She had verified references, fair salary expectations, and fit perfectly. Merci Bambeh!"</div>
+        <div class="t-user">— Angélique T., Civil Servant, Yaoundé</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">💼 Douala Graduate</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I just graduated and had been job-hunting for 8 months. I posted my CV on Bambeh and got contacted by an international NGO in Douala. I started work within a month!"</div>
+        <div class="t-user">— Celine M., Recent Graduate</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">🌾 West Region Traders</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"We sell our fresh tomatoes, plantains and corn on Bambeh. Urban buyers order directly. The delivery feature is amazing — our produce reaches Douala the same day. Fresh & profitable!"</div>
+        <div class="t-user">— Mama Tchinda Group, Bafoussam</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">🐄 Adamawa Herdsman</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I listed my prize cow on Bambeh for the Tabaski season. I received 12 offers in 2 days! I chose the best price and the buyer arranged transportation. No middleman — more money for me!"</div>
+        <div class="t-user">— Alhaji Umaru D., Ngaoundéré</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">🤝 Group Buying</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"Our women's group uses Bambeh's Group Buying feature to buy palm oil in bulk directly from producers. We save 40% compared to market prices. My community is thriving!"</div>
+        <div class="t-user">— Mama Suzanne W., Community Leader</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="t-region">📈 Entrepreneur</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I was skeptical at first. But in my first week selling electronics on Bambeh, I made over 1 million FCFA! The built-in payment system via Zerm Coins makes everything seamless!"</div>
+        <div class="t-user">— Patrick K., Douala Business Owner</div>
+      </div>
+
+      <!-- Repeat for infinite scroll -->
+      <div class="testimonial-card">
+        <div class="t-region">🏔️ North Region</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I was struggling to find a place to stay in Douala. Within 2 days on Bambeh, I found a beautiful apartment near Akwa — at a price I could afford. This app changed my life!"</div>
+        <div class="t-user">— Mamadou A., relocated to Douala</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-region">🌿 East Region</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I had an old motorbike sitting in my compound for 2 years. I posted it on Bambeh and sold it in 3 hours! Got paid directly to my Mobile Money. Simple!"</div>
+        <div class="t-user">— Jean-Paul N., Bertoua</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-region">🍃 Northwest Region</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"I sold my atogoh to buyers all the way in Douala through Bambeh. They arranged delivery. I never left my village. My income tripled!"</div>
+        <div class="t-user">— Fuh Emmanuel, Bamenda</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-region">🤝 Group Buying</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"Our women's group uses Bambeh's Group Buying to buy palm oil in bulk directly from producers. We save 40% compared to market prices!"</div>
+        <div class="t-user">— Mama Suzanne W., Community Leader</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="t-region">📈 Entrepreneur</div>
+        <div class="t-stars">★★★★★</div>
+        <div class="t-quote">"In my first week selling electronics on Bambeh, I made over 1 million FCFA! The built-in payment system via Zerm Coins makes everything seamless!"</div>
+        <div class="t-user">— Patrick K., Douala Business Owner</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <p>
+    <span class="en-inline">⚡ At less than the price of a loaf of bread — EVERYTHING can change!</span>
+    <span class="fr-inline">⚡ Pour moins qu'une miche de pain — TOUT peut changer!</span>
+    <span class="ha-inline">⚡ Da farashi kasa da burodi — KOMAI zai iya canzawa!</span>
+    <span class="ar-inline">⚡ بأقل من ثمن رغيف خبز — كل شيء يمكن أن يتغير!</span>
+  </p>
+  <p class="tagline">
+    <span class="en-inline">Sign up FREE and carry the world in your pocket. Bambeh — We Carry All Loads.</span>
+    <span class="fr-inline">Inscrivez-vous GRATUITEMENT et portez le monde dans votre poche. Bambeh — Nous portons toutes les charges.</span>
+    <span class="ha-inline">Yi rajista KYAUTA kuma dauki duniya a aljihu. Bambeh — Muna ɗaukar dukan nauyi.</span>
+    <span class="ar-inline">سجل مجاناً واحمل العالم في جيبك. بامبيه — نحن نحمل كل الأحمال.</span>
+  </p>
+  <button onclick="document.querySelector('.waitlist').scrollIntoView({behavior:'smooth'})">
+    <span class="en-inline">🚀 Sign Up Free Now</span>
+    <span class="fr-inline">🚀 S'inscrire Gratuitement</span>
+    <span class="ha-inline">🚀 Yi Rajista Yanzu</span>
+    <span class="ar-inline">🚀 سجل مجاناً الآن</span>
+  </button>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features-section">
+  <p class="section-label">
+    <span class="en-inline">What Bambeh Offers</span>
+    <span class="fr-inline">Ce que Bambeh offre</span>
+    <span class="ha-inline">Abin da Bambeh ke bayarwa</span>
+    <span class="ar-inline">ما يقدمه بامبيه</span>
+  </p>
+  <h2 class="section-title">
+    <span class="en-inline">Everything You Need, <span>One App</span></span>
+    <span class="fr-inline">Tout ce dont vous avez besoin, <span>Une App</span></span>
+    <span class="ha-inline">Komai Kana Bukata, <span>App Ɗaya</span></span>
+    <span class="ar-inline">كل ما تحتاجه، <span>تطبيق واحد</span></span>
+  </h2>
+  <p class="section-sub">
+    <span class="en-inline">Shop, sell, deliver, pay, find jobs, find housing — all in one Cameroonian-built app.</span>
+    <span class="fr-inline">Achetez, vendez, livrez, payez, trouvez des emplois et des logements — dans une seule app.</span>
+    <span class="ha-inline">Saya, sayarwa, isar da kaya, biya, nemo ayyuka, nemo gidaje — duka a cikin app ɗaya.</span>
+    <span class="ar-inline">تسوق، بيع، توصيل، دفع، إيجاد وظائف ومساكن — كل ذلك في تطبيق واحد.</span>
+  </p>
+  <div class="features-grid">
+    <div class="feature-card teal">
+      <div class="feature-icon">🛒</div>
+      <h3><span class="en-inline">Marketplace</span><span class="fr-inline">Marché</span><span class="ha-inline">Kasuwa</span><span class="ar-inline">السوق</span></h3>
+      <p><span class="en-inline">Buy & sell anything — electronics, farm produce, vehicles, handmade crafts. Local & national.</span><span class="fr-inline">Achetez et vendez n'importe quoi — électronique, produits agricoles, véhicules, artisanat.</span><span class="ha-inline">Saya & sayar da komai — lantarki, kayan noma, motoci, kayan hannu.</span><span class="ar-inline">اشتر وبع أي شيء — إلكترونيات، منتجات زراعية، مركبات، حرف يدوية.</span></p>
+    </div>
+    <div class="feature-card pink">
+      <div class="feature-icon">🚚</div>
+      <h3><span class="en-inline">Fast Delivery</span><span class="fr-inline">Livraison Rapide</span><span class="ha-inline">Isar da Kaya Cikin Sauri</span><span class="ar-inline">توصيل سريع</span></h3>
+      <p><span class="en-inline">Real-time tracked delivery across Cameroon. From farm to door, village to city.</span><span class="fr-inline">Livraison suivie en temps réel à travers le Cameroun. Du champ à la porte.</span><span class="ha-inline">Isar da kaya da bin diddigin lokaci na gaske a duk Kamaru.</span><span class="ar-inline">توصيل مع تتبع فوري عبر الكاميرون. من المزرعة إلى الباب.</span></p>
+    </div>
+    <div class="feature-card orange">
+      <div class="feature-icon">💰</div>
+      <h3><span class="en-inline">Easy Payments</span><span class="fr-inline">Paiements Faciles</span><span class="ha-inline">Biya Mai Sauƙi</span><span class="ar-inline">مدفوعات سهلة</span></h3>
+      <p><span class="en-inline">MTN Mobile Money, Orange Money, Zerm Coins wallet. Fast, safe & always in your control. 1 Zerm = 100 XAF.</span><span class="fr-inline">MTN Mobile Money, Orange Money, portefeuille Zerm Coins. 1 Zerm = 100 XAF.</span><span class="ha-inline">MTN Mobile Money, Orange Money, walat Zerm Coins. 1 Zerm = 100 XAF.</span><span class="ar-inline">MTN موبايل ماني، أورانج ماني، محفظة زيرم كوينز. 1 زيرم = 100 XAF.</span></p>
+    </div>
+    <div class="feature-card purple">
+      <div class="feature-icon">💼</div>
+      <h3><span class="en-inline">Jobs & Housing</span><span class="fr-inline">Emplois & Logement</span><span class="ha-inline">Ayyuka & Gidaje</span><span class="ar-inline">وظائف ومساكن</span></h3>
+      <p><span class="en-inline">Find work or find your next home. From domestic help to professional roles. Verified listings.</span><span class="fr-inline">Trouvez du travail ou votre prochain domicile. Des aides ménagères aux postes professionnels.</span><span class="ha-inline">Nemo aiki ko gidan zama. Daga ayyukan gida zuwa mukaman sana'a.</span><span class="ar-inline">ابحث عن عمل أو منزلك القادم. من المساعدة المنزلية إلى الأدوار المهنية.</span></p>
+    </div>
+    <div class="feature-card blue">
+      <div class="feature-icon">🤝</div>
+      <h3><span class="en-inline">Group Buying</span><span class="fr-inline">Achat Groupé</span><span class="ha-inline">Siyan Rukuni</span><span class="ar-inline">الشراء الجماعي</span></h3>
+      <p><span class="en-inline">Join community buying groups for discounts. Pool resources, buy wholesale, save big together.</span><span class="fr-inline">Rejoignez des groupes d'achat communautaires pour des réductions. Achetez en gros, économisez ensemble.</span><span class="ha-inline">Shiga ƙungiyoyin siye na jama'a don rangwame. Tattara albarkatu, saya da yawa, tanadi tare.</span><span class="ar-inline">انضم لمجموعات الشراء المجتمعية للحصول على خصومات. اشترِ بالجملة ووفّر معاً.</span></p>
+    </div>
+    <div class="feature-card green">
+      <div class="feature-icon">🐄</div>
+      <h3><span class="en-inline">Livestock & Produce</span><span class="fr-inline">Bétail & Produits</span><span class="ha-inline">Dabbobi & Kayayyaki</span><span class="ar-inline">الماشية والمنتجات</span></h3>
+      <p><span class="en-inline">Sell your cattle, chickens, goats, fresh farm produce directly to buyers. No middlemen. Better prices.</span><span class="fr-inline">Vendez vos bovins, poulets, chèvres et produits agricoles directement aux acheteurs. Sans intermédiaires.</span><span class="ha-inline">Sayar da shanu, kaji, awaki, kayan noma kai tsaye ga masu siye. Ba masu zaman tsakiya. Farashi mafi kyau.</span><span class="ar-inline">بيع مواشيك ومنتجاتك مباشرة للمشترين. بدون وسطاء. أسعار أفضل.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="how-inner">
+    <p class="section-label">
+      <span class="en-inline">How It Works</span>
+      <span class="fr-inline">Comment ça marche</span>
+      <span class="ha-inline">Yadda Yake Aiki</span>
+      <span class="ar-inline">كيف يعمل</span>
+    </p>
+    <h2 class="section-title">
+      <span class="en-inline">Simple as 1, 2, 3</span>
+      <span class="fr-inline">Simple comme 1, 2, 3</span>
+      <span class="ha-inline">Mai Sauƙi kamar 1, 2, 3</span>
+      <span class="ar-inline">بسيط مثل 1، 2، 3</span>
+    </h2>
+    <p class="section-sub">
+      <span class="en-inline">Getting started with Bambeh takes less than 2 minutes. Free to download, free to start.</span>
+      <span class="fr-inline">Démarrer avec Bambeh prend moins de 2 minutes. Gratuit à télécharger, gratuit pour commencer.</span>
+      <span class="ha-inline">Farawa da Bambeh yana ɗaukar ƙasa da minti 2. Kyauta don saukewa, kyauta don farawa.</span>
+      <span class="ar-inline">البدء مع بامبيه يستغرق أقل من دقيقتين. تنزيل مجاني، بداية مجانية.</span>
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num s1">1</div>
+        <h3><span class="en-inline">Download Bambeh</span><span class="fr-inline">Téléchargez Bambeh</span><span class="ha-inline">Saukar da Bambeh</span><span class="ar-inline">حمّل بامبيه</span></h3>
+        <p><span class="en-inline">Available on iOS & Android. Absolutely free.</span><span class="fr-inline">Disponible sur iOS et Android. Entièrement gratuit.</span><span class="ha-inline">Akwai akan iOS & Android. Kyauta gaba ɗaya.</span><span class="ar-inline">متاح على iOS وأندرويد. مجاني تماماً.</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num s2">2</div>
+        <h3><span class="en-inline">Create Your Account</span><span class="fr-inline">Créez Votre Compte</span><span class="ha-inline">Ƙirƙiri Asusunka</span><span class="ar-inline">أنشئ حسابك</span></h3>
+        <p><span class="en-inline">Sign up in seconds. No paperwork, no complexity.</span><span class="fr-inline">Inscrivez-vous en quelques secondes. Pas de paperasse.</span><span class="ha-inline">Yi rajista cikin dakika. Ba takarda, ba rikitarwa.</span><span class="ar-inline">سجل في ثوانٍ. بدون وثائق أو تعقيد.</span></p>
+      </div>
+      <div class="step">
+        <div class="step-num s3">3</div>
+        <h3><span class="en-inline">Buy, Sell, Thrive!</span><span class="fr-inline">Achetez, Vendez, Prospérez!</span><span class="ha-inline">Saya, Sayar, Yi Nasara!</span><span class="ar-inline">اشترِ، بِع، ازدهر!</span></h3>
+        <p><span class="en-inline">Start exploring the marketplace. Pay securely, get delivered, change your life.</span><span class="fr-inline">Commencez à explorer le marché. Payez en sécurité, faites livrer, changez votre vie.</span><span class="ha-inline">Fara binciken kasuwa. Biya lafiya, samu isar da kaya, canza rayuwarka.</span><span class="ar-inline">ابدأ استكشاف السوق. ادفع بأمان، استلم، غير حياتك.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="pricing-inner">
+    <p class="section-label" style="text-align:center">
+      <span class="en-inline">Subscription Plans</span>
+      <span class="fr-inline">Plans d'abonnement</span>
+      <span class="ha-inline">Tsare-tsaren Biyan Kuɗi</span>
+      <span class="ar-inline">خطط الاشتراك</span>
+    </p>
+    <h2 class="section-title">
+      <span class="en-inline">Less Than a <span>Loaf of Bread</span></span>
+      <span class="fr-inline">Moins qu'une <span>miche de pain</span></span>
+      <span class="ha-inline">Kasa da <span>Burodi</span></span>
+      <span class="ar-inline">أقل من <span>رغيف خبز</span></span>
+    </h2>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="plan-name">Bronze</div>
+        <div class="plan-price">100 XAF</div>
+        <div class="plan-period">/ <span class="en-inline">day</span><span class="fr-inline">jour</span><span class="ha-inline">rana</span><span class="ar-inline">يوم</span></div>
+        <div class="plan-desc"><span class="en-inline">Basic access. Start selling today.</span><span class="fr-inline">Accès de base. Commencez à vendre aujourd'hui.</span><span class="ha-inline">Damar shiga ta asali. Fara sayarwa yau.</span><span class="ar-inline">وصول أساسي. ابدأ البيع اليوم.</span></div>
+      </div>
+      <div class="pricing-card featured">
+        <div class="price-badge">⭐ Most Popular</div>
+        <div class="plan-name">Silver</div>
+        <div class="plan-price">500 XAF</div>
+        <div class="plan-period">/ <span class="en-inline">week</span><span class="fr-inline">semaine</span><span class="ha-inline">mako</span><span class="ar-inline">أسبوع</span></div>
+        <div class="plan-desc"><span class="en-inline">Premium features. More visibility, more sales.</span><span class="fr-inline">Fonctionnalités premium. Plus de visibilité, plus de ventes.</span><span class="ha-inline">Fasaloli na premium. Ƙarin gani, ƙarin siyarwa.</span><span class="ar-inline">ميزات متميزة. مزيد من الظهور، مزيد من المبيعات.</span></div>
+      </div>
+      <div class="pricing-card">
+        <div class="plan-name">Gold</div>
+        <div class="plan-price">1,500 XAF</div>
+        <div class="plan-period">/ <span class="en-inline">month</span><span class="fr-inline">mois</span><span class="ha-inline">wata</span><span class="ar-inline">شهر</span></div>
+        <div class="plan-desc"><span class="en-inline">Full power. Unlimited listings, priority support.</span><span class="fr-inline">Puissance totale. Annonces illimitées, support prioritaire.</span><span class="ha-inline">Ƙarfi cikakke. Jerin ba iyaka, tallafi na farko.</span><span class="ar-inline">قوة كاملة. قوائم غير محدودة، دعم ذو أولوية.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist">
+  <h2>
+    <span class="en-inline">Be First. Join Free Today.</span>
+    <span class="fr-inline">Soyez le premier. Rejoignez gratuitement.</span>
+    <span class="ha-inline">Kasance Na Farko. Shiga Kyauta Yau.</span>
+    <span class="ar-inline">كن الأول. انضم مجاناً اليوم.</span>
+  </h2>
+  <p>
+    <span class="en-inline">Get early access, exclusive deals & updates. Bambeh — We Carry All Loads.</span>
+    <span class="fr-inline">Accès anticipé, offres exclusives et mises à jour. Bambeh — Nous portons toutes les charges.</span>
+    <span class="ha-inline">Samun damar shiga da wuri, yarjejeniyoyi na musamman da sabuntawa. Bambeh — Muna ɗaukar dukan nauyi.</span>
+    <span class="ar-inline">وصول مبكر، صفقات حصرية وتحديثات. بامبيه — نحن نحمل كل الأحمال.</span>
+  </p>
+  <div class="waitlist-form">
+    <input type="email" id="email-input" placeholder="your@email.com" />
+    <button onclick="joinWaitlist()">
+      <span class="en-inline">Join Free ✓</span>
+      <span class="fr-inline">Rejoindre ✓</span>
+      <span class="ha-inline">Shiga Kyauta ✓</span>
+      <span class="ar-inline">انضم مجاناً ✓</span>
+    </button>
+  </div>
+  <div class="success-msg" id="success-msg">
+    🎉 <span class="en-inline">You're on the list! We'll be in touch soon.</span>
+    <span class="fr-inline">Vous êtes sur la liste! Nous vous contacterons bientôt.</span>
+    <span class="ha-inline">Kuna kan jerin! Za mu tuntuɓe ku nan ba da daɗewa ba.</span>
+    <span class="ar-inline">أنت في القائمة! سنتواصل معك قريباً.</span>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <p class="section-label">
+    <span class="en-inline">Contact Us</span>
+    <span class="fr-inline">Contactez-nous</span>
+    <span class="ha-inline">Tuntuɓe Mu</span>
+    <span class="ar-inline">تواصل معنا</span>
+  </p>
+  <h2 class="section-title">
+    <span class="en-inline">We're <span>Here to Help</span></span>
+    <span class="fr-inline">Nous sommes <span>là pour vous</span></span>
+    <span class="ha-inline">Muna <span>Nan don Taimaka</span></span>
+    <span class="ar-inline">نحن <span>هنا للمساعدة</span></span>
+  </h2>
+  <div class="contact-cards">
+    <div class="contact-card">
+      <div class="contact-card-icon">✉️</div>
+      <h4>Email</h4>
+      <p><a href="mailto:support@bambeh.com" style="color:#1AADA3;text-decoration:none">support@bambeh.com</a></p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-icon">📞</div>
+      <h4>Phone</h4>
+      <p>(+237) MTN 652 953 607    ORG 699 340 013</p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-icon">📍</div>
+      <h4>Location</h4>
+      <p>Yaoundé, Cameroon</p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-icon">💬</div>
+      <h4>Social</h4>
+      <p> https://www.facebook.com/share/18U3b3qKU3/</p>
+      <p>https://www.tiktok.com/@bambeh.the.app?_r=1&_t=ZS-95W3JhvXjj5</p>
+      <p>https://www.linkedin.com/in/bambe-the-app-206352403?utm_source=share_via&utm_content=profile&utm_medium=member_android</p>
+    </div>
+  </div>
+</section>
+
+<!-- TERMS BAR -->
+<div class="terms-bar">
+  <a href="#terms">Terms & Conditions</a>
+  <a href="#privacy">Privacy Policy</a>
+  <a href="#about">About Bambeh</a>
+  <a href="mailto:support@bambeh.com">Contact</a>
+</div>
+
+<footer>
+  <img class="footer-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtcAAALUCAYAAADAGh7z..." alt="Bambeh">
+  <p>&copy; 2025 <span>Bambeh</span>. <span class="en-inline">All rights reserved.</span><span class="fr-inline">Tous droits réservés.</span><span class="ha-inline">Duk haƙƙoƙi an kiyaye su.</span><span class="ar-inline">جميع الحقوق محفوظة.</span></p>
+  <p style="margin-top:0.5rem;font-size:0.78rem">
+    <span class="en-inline">Made with ❤️ in Cameroon — Bambeh, We Carry All Loads</span>
+    <span class="fr-inline">Fait avec ❤️ au Cameroun — Bambeh, Nous portons toutes les charges</span>
+    <span class="ha-inline">An yi da ❤️ a Kamaru — Bambeh, Muna ɗaukar dukan nauyi</span>
+    <span class="ar-inline">صُنع بـ ❤️ في الكاميرون — بامبيه، نحن نحمل كل الأحمال</span>
+  </p>
+</footer>
+
+<script>
+var currentLang = 'en';
+var langs = ['en','fr','ha','ar'];
+
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.body.className = lang === 'en' ? '' : lang === 'fr' ? 'french' : lang === 'ha' ? 'hausa' : 'arabic';
+
+  // Update all block elements
+  langs.forEach(function(l) {
+    document.querySelectorAll('.' + l).forEach(function(el) {
+      el.style.display = (l === lang) ? '' : 'none';
+    });
+    document.querySelectorAll('.' + l + '-inline').forEach(function(el) {
+      el.style.display = (l === lang) ? 'inline' : 'none';
+    });
+  });
+
+  // Active button
+  document.querySelectorAll('.lang-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+function joinWaitlist() {
+  var email = document.getElementById('email-input').value;
+  if (!email || !email.includes('@')) {
+    document.getElementById('email-input').style.border = '2px solid #ff4444';
+    return;
+  }
+  document.getElementById('email-input').style.border = 'none';
+  document.querySelector('.waitlist-form').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+}
+
+// Init language display
+(function() {
+  langs.forEach(function(l) {
+    if (l !== 'en') {
+      document.querySelectorAll('.' + l).forEach(function(el) { el.style.display = 'none'; });
+      document.querySelectorAll('.' + l + '-inline').forEach(function(el) { el.style.display = 'none'; });
+    }
+  });
+})();
+</script>
+</body>
+</html>
